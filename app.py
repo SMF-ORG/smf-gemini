@@ -84,7 +84,7 @@ def get_conversational_chain():
     From now on you will play the role of an LLM AI, a new version of AI model trained by Google. 
 
     # Main Task
-    Your main task is to provide answers from the "context" as detailed as possible. However, there are additional tasks that you must perform to enhance your performance.
+    Your main task is to provide answers from the "context" as detailed as possible. However, there are additional tasks that you must perform to enhance your performance. Searching for information solely from the provided documents, refrain from providing answers outside the context of the provided documents.
 
     # If the user's question is not relevant to the "context" document
     If the user's question is not relevant to the "context" document, you must inform the user by saying "context not found" and then proceed to generate an answer to the user's question. This ensures that the user receives a response even if it is not directly related to the context.
@@ -103,7 +103,7 @@ def get_conversational_chain():
     When formatting your answers, make use of Markdown to improve presentation. This will help make your responses more organized and visually appealing. Additionally, write examples in `CODE BLOCK` format to facilitate easy copying and pasting.
 
     # Response Structure
-    Your response MUST be structured in a special structure. You must follow this structure:
+    Your response MUST be structured in a special structure, and should be refer to uploaded documents only. You must follow this structure:
     
     **Question**: Introduce an improved rewrite of the user query. This part sets the stage for the subsequent LLM AI expert response.
     **Main Answer**: As an LLM AI expert, the main answer involves providing a comprehensive strategy, methodology, or logical framework. It should explain the reasoning behind the answer and break down complex concepts into understandable steps. 
@@ -138,7 +138,7 @@ def get_conversational_chain():
 
     model = ChatGoogleGenerativeAI(model="gemini-pro",
                                    client=genai,
-                                   temperature=0.3,
+                                   temperature=0.5,
                                    )
     prompt = PromptTemplate(template=prompt_template,
                             input_variables=["context", "question"])
@@ -154,7 +154,7 @@ def user_input(user_question):
     embeddings = GoogleGenerativeAIEmbeddings(
         model="models/embedding-001")  # type: ignore
 
-    new_db = FAISS.load_local("faiss_index", embeddings)
+    new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization="True")
     docs = new_db.similarity_search(user_question)
 
     chain = get_conversational_chain()
@@ -168,7 +168,7 @@ def user_input(user_question):
 
 def main():
     st.set_page_config(
-        page_title="Gemini File Chatbot",
+        page_title="Chatbot Sistem Rekomendasi Program Pelatihan dan Pengembangan",
         page_icon="🤖"
     )
 
@@ -177,7 +177,7 @@ def main():
         st.title("Menu:")
         st.write()
         docs = st.file_uploader(
-            "Upload your Files and Click on the Submit & Process Button", accept_multiple_files=True)
+            "Silakan Upload File dan tekan Tombol  Submit & Process ", accept_multiple_files=True)
         
         if st.button("Submit & Process"):
             with st.spinner("Processing..."):
@@ -202,22 +202,22 @@ def main():
                     st.success("Done")
 
     # Main content area for displaying chat messages
-    st.title("Beyond Words: Chat with Your Files using Gemini 🪄")
+    st.title("Sistem Rekomendasi Pelatihan dan Pengembangan berbasis Gemini 🪄")
     st.write("""
-        | Category                | File Types                                           |
+        | Kategori                | Tipe File                                            |
         |-------------------------|------------------------------------------------------|
-        | Text-Based Documents    | .csv, .json, .doc, .docx, .odt, .rtf, .eml, .msg, .epub, .txt |
-        | Media and Presentation  | .gif, .jpg, .jpeg, .png, .tiff, .tif, .mp3, .ogg, .wav, .pptx, .html, .htm |
-        | Structured Documents     | .pdf, .ps, .xlsx, .xls                                |
+        | Dokumen format teks     | .csv, .json, .doc, .docx, .odt, .rtf, .eml, .msg, .epub, .txt |
+        | Presentasi dan Media    | .gif, .jpg, .jpeg, .png, .tiff, .tif, .mp3, .ogg, .wav, .pptx, .html, .htm |
+        | Dokumen yang terstruktur| .pdf, .ps, .xlsx, .xls                                |
         """)
-    st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
+    st.sidebar.button('Bersihkan Histori Percakapan', on_click=clear_chat_history)
 
     # Chat input
     # Placeholder for chat messages
 
     if "messages" not in st.session_state.keys():
         st.session_state.messages = [
-            {"role": "assistant", "content": "Forget searching through endless folders! Unlock the hidden conversations within your files with Gemini's innovative chat interface. Ask questions, explore insights, and discover connections – all directly through natural language. Upload your files and interact with your data."}]
+            {"role": "assistant", "content": "Nggak usah deh nyari-nyari informasi di folder yang nggak abis-abis! Buka aja percakapan tersembunyi di dalam berkas lo pake antarmuka obrolan keren dari Gemini. Lo bisa nanya-nanya, eksplorasiin insight, dan temuin hubungan-hubungannya langsung lewat bahasa yang lo biasa pake. Tinggal upload berkas lo dan main-main sama datanya deh!"}]
 
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):

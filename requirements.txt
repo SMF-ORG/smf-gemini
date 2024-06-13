@@ -7,3 +7,7 @@ chromadb
 faiss-cpu
 langchain_google_genai
 textract
+langchain_community
+reportlab
+markdown
+pdfplumber==0.10.4
