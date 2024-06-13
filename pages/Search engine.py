@@ -33,9 +33,9 @@ def main():
         # If file uploaded, use the uploaded file
         st.write('You uploaded `%s`' % uploaded_file.name)
         # Save the uploaded file to the specified folder
-        with open(os.path.join('/users/dhi/SMF_Gemini/report/', uploaded_file.name), 'wb') as f:
+        with open(os.path.join('./report', uploaded_file.name), 'wb') as f:
             f.write(uploaded_file.getbuffer())
-        selected_file_path = os.path.join('/users/dhi/SMF_Gemini/report/', uploaded_file.name)
+        selected_file_path = os.path.join('./report', uploaded_file.name)
     else:
         # If no file uploaded, provide option to select from folder
         selected_file_path = file_selector()
