@@ -321,6 +321,6 @@ if __name__ == "__main__":
         st.sidebar.success(f"Percakapan disimpan sebagai {output_file}")
         # st.sidebar.markdown(f"📥 [Unduh file PDF](/app/{output_file})")
         with open(output_file) as file_binary:
-            st.sidebar.download_button(f"📥 [Unduh file PDF]",file_binary)
+            st.sidebar.download_button(f"📥 [Unduh file PDF]",file_binary, file_name=f"{file_name}.pdf")
 
     
