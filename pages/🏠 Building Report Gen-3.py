@@ -304,7 +304,7 @@ def save_chat_to_pdf(messages, output_directory, file_name):
     
 
 # Penggunaan:
-output_directory = "./report"
+output_directory = "./static"
 
 if not os.path.exists(output_directory):
     os.makedirs(output_directory)
@@ -319,6 +319,6 @@ if __name__ == "__main__":
     if st.sidebar.button("Save Chat to PDF"):
         output_file = save_chat_to_pdf(st.session_state.messages, output_directory, file_name)
         st.sidebar.success(f"Percakapan disimpan sebagai {output_file}")
-        st.sidebar.markdown(f"📥 [Unduh file PDF](/{output_file})")
+        st.sidebar.markdown(f"📥 [Unduh file PDF](/app/{output_file})")
 
     
