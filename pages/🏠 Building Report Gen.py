@@ -1,5 +1,5 @@
 from pathlib import Path
-import textract
+# import textract
 import tempfile
 import mimetypes
 import os
@@ -19,6 +19,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 from datetime import datetime
 from langchain_community.vectorstores import FAISS
+import pdfplumber
 
 load_dotenv()
 os.getenv("GOOGLE_API_KEY")
@@ -39,21 +40,41 @@ def get_pdf_text(pdf_docs):
 
 # read any files with textract
 
+# def extract_text_from_bytes(data_bytes, file_extension):
+#     with tempfile.NamedTemporaryFile(suffix=f".{file_extension}", delete=False) as temp_file:
+#         temp_filename = temp_file.name
+#         temp_file.write(data_bytes)
+
+#     try:
+#         text = pdfplumber.open(temp_filename)
+#         return text.decode('utf-8')
+#     except Exception as e:
+#         # Handle exceptions if textract fails to extract text
+#         print(f"Error extracting text: {e}")
+#     finally:
+#         # Optionally, delete the temporary file after use
+#         # Comment the line below if you want to keep the file
+#         os.remove(temp_filename)
+
 def extract_text_from_bytes(data_bytes, file_extension):
     with tempfile.NamedTemporaryFile(suffix=f".{file_extension}", delete=False) as temp_file:
         temp_filename = temp_file.name
         temp_file.write(data_bytes)
 
     try:
-        text = textract.process(temp_filename)
-        return text.decode('utf-8')
+        with pdfplumber.open(temp_filename) as pdf:
+            text = ""
+            for page in pdf.pages:
+                text += page.extract_text()
+        return text
     except Exception as e:
-        # Handle exceptions if textract fails to extract text
         print(f"Error extracting text: {e}")
+        return None  # Mengembalikan None atau pesan kesalahan khusus jika diperlukan
     finally:
-        # Optionally, delete the temporary file after use
-        # Comment the line below if you want to keep the file
-        os.remove(temp_filename)
+        try:
+            os.remove(temp_filename)
+        except Exception as e:
+            print(f"Error deleting temporary file: {e}")
 
 
 # get file extension

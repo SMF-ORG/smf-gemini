@@ -1,5 +1,5 @@
 from pathlib import Path
-import textract
+# import textract
 import tempfile
 import mimetypes
 import os
@@ -23,13 +23,13 @@ import markdown as md
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
-
-
+import pdfplumber
 
 
 load_dotenv()
 os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
 
 # read all pdf files and return text
 st.set_page_config(page_title="Report Generation",page_icon="🤖")
@@ -53,15 +53,19 @@ def extract_text_from_bytes(data_bytes, file_extension):
         temp_file.write(data_bytes)
 
     try:
-        text = textract.process(temp_filename)
-        return text.decode('utf-8')
+        with pdfplumber.open(temp_filename) as pdf:
+            text = ""
+            for page in pdf.pages:
+                text += page.extract_text()
+        return text
     except Exception as e:
-        # Handle exceptions if textract fails to extract text
         print(f"Error extracting text: {e}")
+        return None  # Mengembalikan None atau pesan kesalahan khusus jika diperlukan
     finally:
-        # Optionally, delete the temporary file after use
-        # Comment the line below if you want to keep the file
-        os.remove(temp_filename)
+        try:
+            os.remove(temp_filename)
+        except Exception as e:
+            print(f"Error deleting temporary file: {e}")
 
 
 # get file extension

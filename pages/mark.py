@@ -2,6 +2,7 @@ import streamlit as st
 import markdown
 from weasyprint import HTML
 
+
 # Fungsi untuk mengonversi Markdown ke HTML
 def markdown_to_html(markdown_text):
     return markdown.markdown(markdown_text)

@@ -35,6 +35,9 @@ load_dotenv()
 os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
+# google_api_key = st.secrets["GOOGLE_API_KEY"]
+# genai.configure(api_key=google_api_key)
+
 # read all pdf files and return text
 
 st.set_page_config(page_title="Report Generation",page_icon="🤖")
