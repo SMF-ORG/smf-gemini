@@ -13,7 +13,7 @@ def read_pdf(file):
         return content
 
 # Function for file selection
-def file_selector(folder_path='/users/dhi/SMF_Gemini/report/'):
+def file_selector(folder_path= "./report"):
     filenames = os.listdir(folder_path)
     selected_filename = st.selectbox('Select a file', filenames)
     if selected_filename:
