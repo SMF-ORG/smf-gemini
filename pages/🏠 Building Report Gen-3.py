@@ -297,7 +297,7 @@ def save_chat_to_pdf(messages, output_directory, file_name):
     with open(output_file, "wb") as f:
         doc = SimpleDocTemplate(f, pagesize=letter)
         doc.build(story)
-        st.sidebar.download_button(f"📥 Unduh file PDF 2",doc, file_name=f"{file_name}.pdf")
+        st.sidebar.download_button(f"📥 Unduh file PDF 2",r, file_name=f"{file_name}.pdf", mimetypes="application/pdf")
 
     print("Percakapan berhasil disimpan sebagai file PDF:", output_file)
 
