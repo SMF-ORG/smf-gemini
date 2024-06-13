@@ -6,8 +6,8 @@ PyPDF2
 chromadb
 faiss-cpu
 langchain_google_genai
-textract
-extract-msg==0.29.*
+# textract
+# extract-msg==0.29.*
 langchain_community
 reportlab
 markdown
