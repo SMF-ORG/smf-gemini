@@ -301,7 +301,7 @@ def save_chat_to_pdf(messages, output_directory, file_name):
     
 
 # Penggunaan:
-output_directory = "/Users/wiratek/Documents/WORK/SMF/SMF_Gemini/report/"
+output_directory = "./report"
 
 if not os.path.exists(output_directory):
     os.makedirs(output_directory)
