@@ -1,5 +1,5 @@
 from pathlib import Path
-import textract
+#import textract
 import tempfile
 import mimetypes
 import os
@@ -50,21 +50,21 @@ def get_pdf_text(pdf_docs):
 
 # read any files with textract
 
-def extract_text_from_bytes(data_bytes, file_extension):
-    with tempfile.NamedTemporaryFile(suffix=f".{file_extension}", delete=False) as temp_file:
-        temp_filename = temp_file.name
-        temp_file.write(data_bytes)
+# def extract_text_from_bytes(data_bytes, file_extension):
+#     with tempfile.NamedTemporaryFile(suffix=f".{file_extension}", delete=False) as temp_file:
+#         temp_filename = temp_file.name
+#         temp_file.write(data_bytes)
 
-    try:
-        text = textract.process(temp_filename)
-        return text.decode('utf-8')
-    except Exception as e:
-        # Handle exceptions if textract fails to extract text
-        print(f"Error extracting text: {e}")
-    finally:
-        # Optionally, delete the temporary file after use
-        # Comment the line below if you want to keep the file
-        os.remove(temp_filename)
+#     try:
+#         text = textract.process(temp_filename)
+#         return text.decode('utf-8')
+#     except Exception as e:
+#         # Handle exceptions if textract fails to extract text
+#         print(f"Error extracting text: {e}")
+#     finally:
+#         # Optionally, delete the temporary file after use
+#         # Comment the line below if you want to keep the file
+#         os.remove(temp_filename)
 
 
 # get file extension
