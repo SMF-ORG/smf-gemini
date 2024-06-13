@@ -15,4 +15,5 @@ static/*
 # | this will ignore the content but not the director itself.  |
 # +------------------------------------------------------------+
 !/**/.gitkeep
+!/**/_2024-04-26_14-57-57.pdf
 
